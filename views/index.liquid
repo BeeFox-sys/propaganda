@@ -14,6 +14,14 @@
     <meta property="description" content="">
     <link rel="stylesheet" href="/static/normalize.css">
     <link rel="stylesheet" href="/static/main.css">
+    <script src="/static/moment.js"></script>
+    <script>
+        setInterval(()=>{
+            document.querySelectorAll("time[datetime]").forEach((el)=>{
+                el.innerHTML = moment(new Date(el.getAttribute('datetime'))).fromNow()
+            })
+        },60000)
+    </script>
 </head>
 <body>
     <h1>Propaganda!</h1>

@@ -59,11 +59,11 @@
                 {% endif %}
             {% endif %}
             {% if election.vote_state == "future" %}
-                <time>Voting starts in {{election.time_until_vote_start}}</time>
+                <span class="voteTime">Voting starts in <time datetime="{{election.vote_start}}">{{election.time_until_vote_start}}</time></span>
             {% elsif election.vote_state == "now" %}
-                <time>Voting ends in {{election.time_until_vote_end}}</time>
+                <span class="voteTime">Voting Ends In <time datetime="{{election.vote_end}}">{{election.time_until_vote_end}}</time></span>
             {% else %}
-                <time>Voting has ended!</time>
+                <span class="voteTime">Voting has ended!</span>
             {% endif %}
         </div>
     </form>

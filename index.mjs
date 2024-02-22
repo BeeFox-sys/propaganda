@@ -55,9 +55,6 @@ function processElection(election){
     }
 }
 
-function pickRaffleWinner(votesArray){
-    return shuffleArray(votesArray)[0];
-}
 
 function shuffleArray(input_array) {
     let array = Array.from(input_array);
@@ -71,9 +68,14 @@ function shuffleArray(input_array) {
 async function runMajorityElection(election_id){
     console.log("Majority", election_id)
     let voteCount = await db.countVotesForElection(election_id);
-    if(voteCount.length === 0) return;
+    if(voteCount.length === 0) {   
+        let electionItems = Array.from(await db.getItemsForElection(election_id));
+        let randItem = electionItems[Math.floor(Math.random()*electionItems.length)]
+        await db.assignItemToTeam(randItem.id, 0);
+        db.markElectionProcessed(election_id);
+        return
+    };
     let winner = await voteCount.sort((a,b)=>a.countof > b.countof)[0];
-    // console.log(winner)
     await db.assignItemToTeam(winner.item, 0);
     db.markElectionProcessed(election_id);
 }

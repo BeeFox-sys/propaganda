@@ -208,7 +208,7 @@ p {
         display: block;
         margin-inline: auto;
         white-space: nowrap;
-        
+        margin-block: 0.6em 0.2em;
     }
 
     h3 {
@@ -247,7 +247,7 @@ p {
         background-color: color-mix(in srgb, #7697dc 20%, black);
     }
 
-    time {
+    .voteTime {
         color: var(--_election-color);
         font-family: "beefont", sans-serif;
         font-size: 1.2em;
