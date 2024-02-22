@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propaganda!</title>
+    <meta property="og:type" content="website">
+    <meta property="theme-color" content="#FFFFFF">
+    <meta property="og:site_name" content="">
+    <meta property="twitter:title" content="">
+    <meta property="og:title" content="">
+    <meta property="twitter:description" content="">
+    <meta property="og:description" content="">
+    <meta property="description" content="">
+    <link rel="stylesheet" href="/static/normalize.css">
+    <link rel="stylesheet" href="/static/main.css">
+</head>
+<body>
+    <h1>Propaganda!</h1>
+    {% unless user %}
+        <a class="button" href="/login">LOGIN</a>
+        {% else %}
+        <details class="userInfo">
+            <summary class="button" style="--_button-color: {{userTeam.color | default: "#ffffff"}}">{{user.username}}</summary>
+            {% comment %} <h4 class="teamPlate" style="--_team-color: {{userTeam.color | default: "#ffffff"}}"><span class="teamIcon">{{userTeam.icon}}</span> {{userTeam.name | default: "No Team"}} <span class="teamIcon">{{userTeam.icon}}</span></h4> {% endcomment %}
+            <form action="/changeteam" method="post">
+                <fieldset>
+                    {% for team in teams %}
+                        <input type="radio" name="team_selector" id="team_{{team.id}}" value="{{team.id}}" autocomplete="off" {% if user.team == team.id %}
+                            checked
+                        {% endif %}>
+                        <label class="teamPlate" for="team_{{team.id}}" style="--_team-color: {{team.color}}">
+                            <span class="teamIcon">{{team.icon}}</span> {{team.name | default: "No Team"}} <span class="teamIcon">{{team.icon}}</span>
+                        </label>
+                    {% endfor %}
+                </fieldset>
+                <div class="buttonArray">
+                <input class="button" type="submit" value="CHANGE TEAM">
+                <a class="button" style="--_button-color: #dd6666" href="/logout">LOGOUT</a>
+                </div>
+            </form>
+
+        </details>
+    {% endunless %}
+    {% comment %} {{gameItems | json}} {% endcomment %}
+    <div class="itemGallery" sytle="font-size: 3rem">
+        {% for item in gameItems %}
+            {% include "item.liquid" %}
+        {% endfor %}
+    </div>
+        <br>
+    <h2>Teams!</h2>
+    <div class="teamsGallery">
+        {% for team in teams %}
+            {% include "team.liquid" %}
+        {% endfor %}
+    </div>
+    <h2>Elections!</h2>
+    {% for election in elections %}
+        {% include "election.liquid" %}
+    {% endfor %}
+    
+    <hr>
+    <nav class="buttonArray">
+        <a class="button" href="/about">ABOUT!</a>
+        <a class="button" style="--_button-color: #5865F2" href="">DISCORD</a>
+    </nav>
+</body>
+</html>

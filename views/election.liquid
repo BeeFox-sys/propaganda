@@ -1,0 +1,70 @@
+<article class="election" style="--_election-color: {{election.color}}">
+    <h3>{{election.title}}</h3>
+    <h4 class="electionType {{election.mode}}">{{election.mode |  capitalize}}!</h4>
+    <p>{{election.subtitle}}</p>
+    {% comment %} <h4 class="electionType majority">MAJORITY!</h4> {% endcomment %}
+    
+    <form class="electionForm" action="/vote" method="post">
+        <input type="text" name="election_id" id="election_id" value="{{election.id}}" style="display: none;">
+        <fieldset>
+        {% if  election.vote_state == "now" %}
+            {% for item in election.items %}
+                <input required type="radio" name="election_{{election.id}}" id="{{item.id}}" value="{{item.id}}" autocomplete="off">
+                <label for="{{item.id}}" style="--_item-color: {{item.color}}">
+                    <div class="itemIcon">{{item.icon}}</div>
+                    <h4>{{item.name}}</h4>
+                    <p>{{item.description}}</p>
+                    {% if and item.winner > 0 %}
+                        <p class="winnerPlate" style="--_winner-color: {{item.winner_object.color}}"><span class="teamIcon">{{item.winner_object.icon}}</span> {{item.winner_object.name}} <span class="teamIcon">{{item.winner_object.icon}}</span></p>
+                    {% endif %}
+                </label>
+            {% endfor %}
+        {% elsif election.vote_state == "future" %}
+            {% for item in election.items %}
+                <label for="{{item.id}}" class="future" style="--_item-color: {{item.color}}">
+                    <div class="itemIcon">{{item.icon}}</div>
+                    <h4>{{item.name}}</h4>
+                    <p>{{item.description}}</p>
+                    {% if and item.winner > 0 %}
+                        <p class="winnerPlate" style="--_winner-color: {{item.winner_object.color}}"><span class="teamIcon">{{item.winner_object.icon}}</span> {{item.winner_object.name}} <span class="teamIcon">{{item.winner_object.icon}}</span></p>
+                    {% endif %}
+                </label>
+            {% endfor %}
+        {% else %}
+            {% for item in election.items %}
+            <label {% if item.winner %} class="electionWin" {% else %} class="electionLose" {% endif  %} style="--_item-color: {{item.color}}">
+                    <div class="itemIcon">{{item.icon}}</div>
+                    <h4>{{item.name}}</h4>
+                    <p>{{item.description}}</p>
+                    {% if item.winner > 0 %}
+                        <p class="winnerPlate" style="--_winner-color: {{item.winner_object.color}}"><span class="teamIcon">{{item.winner_object.icon}}</span> {{item.winner_object.name}} <span class="teamIcon">{{item.winner_object.icon}}</span></p>
+                    {% endif %}
+                </label>
+            {% endfor %}
+                
+        {% endif %}
+        </fieldset>
+        <div class="electionInfo">
+            {% if  election.vote_state == "now" %}
+                {% if userElections contains election.id %}
+                    <input type="submit" value="Voted!"
+                        disabled>
+                        
+                {% else %}
+                    <input type="submit" {% unless user.team %}
+                        disabled value="Join a team first!"
+                        {% else %}
+                        value="Vote!"
+                    {% endunless %}>
+                {% endif %}
+            {% endif %}
+            {% if election.vote_state == "future" %}
+                <time>Voting starts in {{election.time_until_vote_start}}</time>
+            {% elsif election.vote_state == "now" %}
+                <time>Voting ends in {{election.time_until_vote_end}}</time>
+            {% else %}
+                <time>Voting has ended!</time>
+            {% endif %}
+        </div>
+    </form>
+</article>
