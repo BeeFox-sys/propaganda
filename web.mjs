@@ -46,6 +46,17 @@ app.get("/",async (req,res)=>{
     })
 })
 
+app.get("/all-7A9d3G",async (req,res)=>{
+    res.render("index.liquid",{
+        gameItems: await db.getItemsOfTeam(0),
+        teams: await db.getTeams(),
+        elections: await db.getAllElections(),
+        user: app.locals.user,
+        userTeam: app.locals.user ? (await db.getTeam(app.locals.user.team)) : null,
+        userElections: app.locals.user ? (await db.getUserElections(app.locals.user.id)).map((val)=>val.election) : []
+    })
+})
+
 app.get("/about", async (req,res)=>{
     res.render("about.liquid")
 })

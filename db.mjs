@@ -81,6 +81,29 @@ async function getActiveElections(){
     return activeElections;
 }
 
+async function getAllElections(){
+    let activeElections = await sql`
+        select * from "election"
+        order by display_start
+        ;
+    `
+    for (let electionIndex = 0; electionIndex < activeElections.length; electionIndex++) {
+        const election = activeElections[electionIndex];
+        if(new Date(election.vote_start).getTime() > Date.now()){
+            election.vote_state = 'future'
+        } else if (new Date(election.vote_start).getTime() < Date.now() && new Date(election.vote_end).getTime() > Date.now()) {
+            election.vote_state = 'now'
+        } else {
+            election.vote_state = 'past'
+        }
+        election.time_until_vote_start = moment(election.vote_start).fromNow();
+        election.time_until_vote_end = moment(election.vote_end).fromNow();
+
+        election.items = await getItemsForElection(election.id)
+    }
+    return activeElections;
+}
+
 async function getItemsForElection(election_id){
     let items = await sql`
         select * from "item" where 
@@ -212,6 +235,7 @@ export {
     processUpdates,
     processContentUpdates,
     getActiveElections,
+    getAllElections,
     getItemsForElection,
     assignItemToTeam,
     getTeam,
