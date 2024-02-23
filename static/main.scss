@@ -12,6 +12,21 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Twimoji';
+    src: url('/static/TwitterColorEmoji-SVGinOT.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ProggyClean';
+    src: url('/static/ProggyCleanNerdFontMono-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
 :root {
     --radius: 0.4rem;
     --border-width: 0.2rem;
@@ -20,11 +35,12 @@
 body {
     color: white;
     background-color: black;
-    font-family: "ClearSans Regular", sans-serif;
-    max-width: 120ch;
+    font-family: "beefont", sans-serif;
+    max-width: 110ch;
     margin-inline: auto;
     padding-bottom: 2rem;
     padding-inline: 1rem;
+    text-align: center;
 }
 
 h1,h2,h3,h4,h5,h6 {
@@ -47,11 +63,21 @@ h4 {
 p {
     position: relative;
     font-size: 1.2rem;
-    // font-family: "ClearSans Regular", sans-serif;
-    font-family: "beefont", sans-serif;
+    font-family: "beefont", sans-serif;    
+}
 
-    
-    
+hr {
+    color: white;
+    background-color: white;
+    height: 2px;
+    border: none;
+}
+
+.icon {
+    font-family: 'Twimoji';
+    font-size: 1.2em;
+    line-height: 1.2em;
+    font-weight: 600;
 }
 
 .imgContainer {
@@ -96,7 +122,8 @@ p {
     position: relative;
 
     .itemIcon {
-        font-size: 1.5em;
+        color: var(--_item-color);
+        font-size: 1.8em;
         border: var(--border-width) solid var(--_item-color);
         background-color: color-mix(in srgb, var(--_item-color) 40%, black);
         border-radius: var(--radius);
@@ -109,13 +136,14 @@ p {
         transition-duration: 0.2s;
         transition-timing-function: cubic-bezier(0.105, 0.395, 0.385, 1.495);
         margin-inline: auto;
+        cursor: default;
     }
 
     .itemModal {
         display: none;
         position:absolute;
 
-        width: fit-content;
+        width: max-content;
         min-width: 12ch;
         text-justify: center;
 
@@ -268,9 +296,11 @@ p {
         display: none;
     }
     label {
-        min-width: 20ch;
+        min-width: fit-content;
 
-        flex: 1 0 20%;
+        flex: 1 1 25%;
+
+
 
 
         display: block;
@@ -291,6 +321,11 @@ p {
 
         h4, .itemIcon, p {
             margin-block: 0.2rem;
+        }
+
+        .itemIcon {
+            font-size: 2em;
+            color: var(--_item-color);
         }
 
 

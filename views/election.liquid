@@ -11,7 +11,7 @@
             {% for item in election.items %}
                 <input required type="radio" name="election_{{election.id}}" id="{{item.id}}" value="{{item.id}}" autocomplete="off">
                 <label for="{{item.id}}" style="--_item-color: {{item.color}}">
-                    <div class="itemIcon">{{item.icon}}</div>
+                    <div class="icon itemIcon">{{item.icon}}</div>
                     <h4>{{item.name}}</h4>
                     <p>{{item.description}}</p>
                     {% if and item.winner > 0 %}
@@ -22,7 +22,7 @@
         {% elsif election.vote_state == "future" %}
             {% for item in election.items %}
                 <label for="{{item.id}}" class="future" style="--_item-color: {{item.color}}">
-                    <div class="itemIcon">{{item.icon}}</div>
+                    <div class="icon itemIcon">{{item.icon}}</div>
                     <h4>{{item.name}}</h4>
                     <p>{{item.description}}</p>
                     {% if and item.winner > 0 %}
@@ -33,11 +33,11 @@
         {% else %}
             {% for item in election.items %}
             <label {% if item.winner %} class="electionWin" {% else %} class="electionLose" {% endif  %} style="--_item-color: {{item.color}}">
-                    <div class="itemIcon">{{item.icon}}</div>
+                    <div class="icon itemIcon">{{item.icon}}</div>
                     <h4>{{item.name}}</h4>
                     <p>{{item.description}}</p>
                     {% if item.winner > 0 %}
-                        <p class="winnerPlate" style="--_winner-color: {{item.winner_object.color}}"><span class="teamIcon">{{item.winner_object.icon}}</span> {{item.winner_object.name}} <span class="teamIcon">{{item.winner_object.icon}}</span></p>
+                        <p class="winnerPlate" style="--_winner-color: {{item.winner_object.color}}"><span class="icon teamIcon">{{item.winner_object.icon}}</span> {{item.winner_object.name}} <span class="icon teamIcon">{{item.winner_object.icon}}</span></p>
                     {% endif %}
                 </label>
             {% endfor %}
@@ -59,9 +59,9 @@
                 {% endif %}
             {% endif %}
             {% if election.vote_state == "future" %}
-                <span class="voteTime">Voting starts in <time datetime="{{election.vote_start}}">{{election.time_until_vote_start}}</time></span>
+                <span class="voteTime">Voting starts <time datetime="{{election.vote_start}}">{{election.time_until_vote_start}}</time></span>
             {% elsif election.vote_state == "now" %}
-                <span class="voteTime">Voting Ends In <time datetime="{{election.vote_end}}">{{election.time_until_vote_end}}</time></span>
+                <span class="voteTime">Voting ends <time datetime="{{election.vote_end}}">{{election.time_until_vote_end}}</time></span>
             {% else %}
                 <span class="voteTime">Voting has ended!</span>
             {% endif %}

@@ -61,7 +61,7 @@ WITH new_election AS (
         '#bb88bb',
         'majority',
         '18-02-2024', 
-        '26-02-2024',
+        '24-02-2024',
         '22-02-2024', 
         '23-02-2024'
     ) 
@@ -71,12 +71,12 @@ INSERT INTO "item" (icon, name, description, color, election)
 SELECT v.*, ne.id
 FROM (
     VALUES 
-        ('⬆️', 'Up',    'The UP',    '#3c2e7f'),
-        ('⬇️', 'Down',  'The Down',  '#5a45bf'),
-        ('⬅️', 'Left',  'The Left',  '#b769c1'),
-        ('➡️', 'Right', 'The Right', '#f77684'),
-        ('🔼', 'Foreward', 'The Foreward', '#ef9381'),
-        ('🔽', 'Backward', 'The Backward', '#fde174')
+        ('⬆️', 'Up',    '[UP] Gravity',    '#3c2e7f'),
+        ('⬇️', 'Down',  '[DOWN] Gravity',  '#5a45bf'),
+        ('⬅️', 'Left',  '[LEFT] Gravity',  '#b769c1'),
+        ('➡️', 'Right', '[RIGHT] Gravity', '#f77684'),
+        ('🔼', 'Forward', '[FORWARD] Gravity', '#ef9381'),
+        ('🔽', 'Backward', '[BACKWARD] Gravity', '#fde174')
 ) AS v 
 CROSS JOIN new_election ne;
 

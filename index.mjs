@@ -4,8 +4,10 @@ import { CronJob } from "cron";
 import * as web from "./web.mjs";
 import moment from 'moment';
 
+
+
 async function init(){
-    
+   
     await updateJobs()
 
     // console.log(await db.getTeams())
@@ -29,14 +31,14 @@ async function createElectionCronjobs() {
         const election = elections[index];
         if(election.processed) return;
         // console.log(election);
-        let timeLeft = election.vote_end - new Date();
+        let timeLeft = Math.max(election.vote_end - new Date(), 1);
         if(timeLeft >= 2145600000 ) {
             console.warn(`Warning: Election ${election.id} is more then 596 hours away, and as such cannot be scheduled right now.`)
             continue;
         }
         if(electionJobs[election.id]) continue;
         electionJobs[election.id] = setTimeout(processElection, timeLeft, election)
-        console.log(`Scheduled election ${election.id} ${moment(election.vote_end).fromNow()}`)
+        console.log(`Scheduled election ${election.id} ${moment(Date.now()+timeLeft).fromNow()}`)
     }
 }
 
@@ -66,7 +68,7 @@ function shuffleArray(input_array) {
 }
 
 async function runMajorityElection(election_id){
-    console.log("Majority", election_id)
+    // console.log("Majority", election_id)
     let voteCount = await db.countVotesForElection(election_id);
     if(voteCount.length === 0) {   
         let electionItems = Array.from(await db.getItemsForElection(election_id));
@@ -81,7 +83,7 @@ async function runMajorityElection(election_id){
 }
 
 async function runRaffelElection(election_id){
-    console.log("Raffle", election_id)
+    // console.log("Raffle", election_id)
     let electionVotes = Array.from(await db.getVotesForElection(election_id));
     let electionItems = Array.from(await db.getItemsForElection(election_id));
     let teams = Array.from(await db.getTeams());  

@@ -38,7 +38,7 @@
                             checked
                         {% endif %}>
                         <label class="teamPlate" for="team_{{team.id}}" style="--_team-color: {{team.color}}">
-                            <span class="teamIcon">{{team.icon}}</span> {{team.name | default: "No Team"}} <span class="teamIcon">{{team.icon}}</span>
+                            <span class="icon teamIcon">{{team.icon}}</span> {{team.name | default: "No Team"}} <span class="icon">{{team.icon}}</span>
                         </label>
                     {% endfor %}
                 </fieldset>
@@ -64,6 +64,9 @@
         {% endfor %}
     </div>
     <h2>Elections!</h2>
+    {% if elections.size == 0 %}
+        <h4 style="margin-block: 1.8em">No elections currently running!</h4>
+    {% endif %}
     {% for election in elections %}
         {% include "election.liquid" %}
     {% endfor %}
@@ -71,7 +74,7 @@
     <hr>
     <nav class="buttonArray">
         <a class="button" href="/about">ABOUT!</a>
-        <a class="button" style="--_button-color: #5865F2" href="">DISCORD</a>
+        <a class="button" style="--_button-color: #5865F2" href="https://discord.gg/wfwUDsr8dT">DISCORD</a>
     </nav>
 </body>
 </html>
